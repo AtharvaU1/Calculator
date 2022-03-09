@@ -9,6 +9,11 @@
     height: 20%;
     width: 91%;
     margin: 20px auto 3px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    font-size: 3rem;
+    overflow: hidden;
 }
 .firstRow, .secondRow, .thirdRow, .fourthRow{
     height: 19%;
