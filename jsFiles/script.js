@@ -40,7 +40,7 @@ buttonNodelist.forEach(button => button.addEventListener('click', display));
 
 let clickedAfterResult, isDecimal = false;
 const operatorsArray = ['add', 'subtract', 'multiply', 'divide', 'power', 'remainder', ''];
-const actualOperators = ['+', '-', 'X', 'x', '*', '÷', '/', '^', '%', '.', '='];
+const actualOperators = ['+', '-', 'X', 'x', '*', '÷', '/', '^', '%', '='];
 const keyToClass = {
     '0': 'zero',
     '1': 'one', 
