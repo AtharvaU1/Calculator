@@ -27,8 +27,8 @@ function operate(firstNum, secondNum, operator){
     console.log(firstNum, secondNum, operator);
     const ans = operator === '+' ? add(firstNum, secondNum) :
                 operator === '-' ? subtract(firstNum, secondNum) :
-                operator === 'X' ? multiply(firstNum, secondNum) :
-                operator === '÷' ? divide(firstNum, secondNum) :
+                (operator === 'X'  || operator === 'x' || operator ==='*') ? multiply(firstNum, secondNum) :
+                (operator === '÷' || operator ==='/') ? divide(firstNum, secondNum) :
                 operator === '^' ? power(firstNum, secondNum) :
                 operator === '%' ? remainder(firstNum, secondNum) : 'Invalid operator';
     console.log(ans);
@@ -39,10 +39,34 @@ const buttonNodelist = document.querySelectorAll('button');
 buttonNodelist.forEach(button => button.addEventListener('click', display));
 
 let clickedAfterResult, isDecimal = false;
-const operatorsArray = ['add', 'subtract', 'multiply', 'divide', 'power', 'remainder'];
-const actualOperators = ['+', '-', 'X', '÷', '^', '%'];
+const operatorsArray = ['add', 'subtract', 'multiply', 'divide', 'power', 'remainder', ''];
+const actualOperators = ['+', '-', 'X', 'x', '*', '÷', '/', '^', '%', '.', '='];
+const keyToClass = {
+    '0': 'zero',
+    '1': 'one', 
+    '2': 'two', 
+    '3': 'three', 
+    '4': 'four', 
+    '5': 'five',
+    '6': 'six', 
+    '7': 'seven', 
+    '8': 'eight', 
+    '9': 'nine', 
+    '+': 'add', 
+    '-': 'subtract', 
+    '*': 'multiply', 
+    'X': 'multiply', 
+    'x': 'multiply', 
+    '/': 'divide', 
+    '^': 'power',
+    '%': 'remainder', 
+    '.': 'decimal',
+    'Backspace': 'erase',
+    '=': 'equals', 
+};
 
 function clear(){
+    console.log("clearing display");
     document.querySelector('.display').textContent = '';
     clickedAfterResult = false;
     enableDecimal();
@@ -82,7 +106,7 @@ function evaluateExpression(expression){
                 numTwo = parseFloat(expression.substring(secondStart, i));
                 console.log(numTwo, operator);
                 numOne = operate(numOne, numTwo, operator);
-                if(isNaN(numOne)) return numOne;
+                if(isNaN(numOne)) return "Invalid Operation";
                 secondStart = i+1;
             }
             operator = expression[i];
@@ -116,7 +140,7 @@ function display(e){
         }
         else if(targetClass==='erase'){
             const len = displayDivContent.length;
-            if(displayDivContent[len-1]==='.') isDecimal = false;
+            if(displayDivContent[len-1]==='.') enableDecimal();
             if(len!==0) displayDiv.textContent = displayDivContent.slice(0, len-1);
         }
         return;
@@ -130,6 +154,7 @@ function display(e){
     }
 
     if(clickedAfterResult === true && !isTargetClassOperator(targetClass)){
+        console.log('removing after result');
         clickedAfterResult = false;
         displayDiv.textContent = '';
         clear();
@@ -141,5 +166,12 @@ function display(e){
         clickedAfterResult = true;
         enableDecimal();
     }
-    if(targetClass!=='equals') displayDiv.textContent += text;
+    else displayDiv.textContent += text;
+}
+
+document.addEventListener('keydown', whichKey);
+function whichKey(e){
+    const key = e.key;
+    console.log(key);
+    if(key in keyToClass) document.querySelector(`.${keyToClass[key]}`).click();
 }
