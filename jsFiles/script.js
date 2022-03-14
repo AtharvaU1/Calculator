@@ -24,14 +24,12 @@ function remainder(firstNum, secondNum){
 }
 
 function operate(firstNum, secondNum, operator){
-    console.log(firstNum, secondNum, operator);
     const ans = operator === '+' ? add(firstNum, secondNum) :
                 operator === '-' ? subtract(firstNum, secondNum) :
                 (operator === 'X'  || operator === 'x' || operator ==='*') ? multiply(firstNum, secondNum) :
                 (operator === '÷' || operator ==='/') ? divide(firstNum, secondNum) :
                 operator === '^' ? power(firstNum, secondNum) :
                 operator === '%' ? remainder(firstNum, secondNum) : 'Invalid operator';
-    console.log(ans);
     return ans;
 }
 
@@ -65,11 +63,13 @@ const keyToClass = {
     '=': 'equals', 
 };
 
+const numbers = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
+
 function clear(){
-    console.log("clearing display");
     document.querySelector('.display').textContent = '';
     clickedAfterResult = false;
     enableDecimal();
+    enableOperators();
 }
 
 function isTargetClassOperator(str){
@@ -81,7 +81,6 @@ function roundToTwo(num) {
 }
 
 function evaluateExpression(expression){
-    console.log(expression);
 
     if(isTargetClassOperator(expression[0]) || isTargetClassOperator(expression[expression.length-1])){
         clear();
@@ -104,16 +103,13 @@ function evaluateExpression(expression){
             }
             else{
                 numTwo = parseFloat(expression.substring(secondStart, i));
-                console.log(numTwo, operator);
                 numOne = operate(numOne, numTwo, operator);
                 if(isNaN(numOne)) return "Invalid Operation";
                 secondStart = i+1;
             }
             operator = expression[i];
-            console.log(numOne, numTwo, operator);
         }
     }
-    console.log(numOne, numTwo, operator);          
     const ans = operate(numOne, parseFloat(expression.substring(secondStart, expLen)), operator);
     const finalAns = roundToTwo(ans);
     return (isNaN(finalAns)) ? "Invalid Operation" : finalAns;  
@@ -128,9 +124,25 @@ function disableDecimal(){
     isDecimal = true;
 }
 
+function enableOperators(){
+    const operatorNodelist = document.querySelectorAll('.operators');
+    operatorNodelist.forEach(currentOperator => currentOperator.disabled = false);
+}
+
+function disableOperators(){
+    const operatorNodelist = document.querySelectorAll('.operators');
+    operatorNodelist.forEach(currentOperator => currentOperator.disabled = true);
+}
+
+function isNumber(currentClass){
+    if(numbers.includes(currentClass)) return true;
+    return false;
+}
+
 function display(e){
     const text = e.target.innerText;
-    const targetClass = e.target.className;
+    const curClass = e.target.className.split(" ");
+    const targetClass = curClass[0];
     const displayDiv = document.querySelector('.display');
     const displayDivContent = displayDiv.textContent;
 
@@ -152,16 +164,19 @@ function display(e){
     if(isTargetClassOperator(targetClass) && isDecimal){
         enableDecimal();     
     }
+    if(isTargetClassOperator(targetClass)){
+        disableOperators();
+    }else if(isNumber(targetClass)){
+        enableOperators();
+    }
 
     if(clickedAfterResult === true && !isTargetClassOperator(targetClass)){
-        console.log('removing after result');
         clickedAfterResult = false;
         displayDiv.textContent = '';
         clear();
     }else clickedAfterResult = false;
 
     if(targetClass==='equals'){
-        console.log(displayDiv.textContent);
         displayDiv.textContent = evaluateExpression(displayDiv.textContent);
         clickedAfterResult = true;
         enableDecimal();
@@ -172,6 +187,5 @@ function display(e){
 document.addEventListener('keydown', whichKey);
 function whichKey(e){
     const key = e.key;
-    console.log(key);
     if(key in keyToClass) document.querySelector(`.${keyToClass[key]}`).click();
 }

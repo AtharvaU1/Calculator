@@ -1,15 +1,20 @@
 html{
     font-family: "SF Mono", "Fira Code", "Fira Mono", "Roboto Mono", monospace;
     background-color: #525252;
+    background-image: linear-gradient(to bottom right, #3d5a80, #98c1d9);
+    /* background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: 100% 100%; */
+    font-size: 10px;
 }
 .container{
-    height: 80vh;
+    height: 75vh;
     width: 33vw;
-    padding-top: 20px;
-    margin: 0 auto;
-    background-image: url(/cssFiles/wallhaven-mpg3j1_1920x1080.png);
-    background-position: left top;
-    
+    padding-top: 15px;
+    margin: 5vh auto 0;
+    border: 2px #353531 solid;
+    border-radius: 4px;
 }
 .display{
     height: 20%;
@@ -18,7 +23,7 @@ html{
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    font-size: 3rem;
+    font-size: 5rem;
     overflow: hidden;
     background: white;
     border-radius: 5px;
@@ -30,16 +35,79 @@ html{
     align-items: center;
 }
 button{
-    font-size: 1.5rem;
+    background-color: #e2eafc;
+    font-size: 2rem;
     width: 15%;
     height: 75%;
+    border-radius: 10px;
 }
 a{
     color: inherit;
 }
 .footer{
-    height: 20vh;
+    height: 17vh;
     display: flex;
     justify-content: center;
     align-items: center;
+    font-size: 1.5rem;
+}
+
+@media(max-width:1400px){
+    .container{
+        width: 40%;
+    }
+}
+
+@media(max-width:1150px){
+    html{
+        font-size: 60%;
+    }
+}
+
+@media(max-width:950px){
+    .container{
+        width: 45%;
+    }
+}
+
+@media(max-width:800px){
+    html{
+        font-size: 50%;
+    }
+    .container{
+        width: 50%;
+    }
+}
+
+@media(max-width:700px){
+    .container{
+        width: 55%;
+    }
+}
+
+@media(max-width:600px){
+    html{
+        font-size: 45%;
+    }
+    .container{
+        width: 60%;
+    }
+}
+
+@media(max-width:500px){
+    html{
+        font-size: 45%;
+    }
+    .container{
+        width: 65%;
+    }
+}
+
+@media(max-width:450px){
+    html{
+        font-size: 40%;
+    }
+    .container{
+        width: 75%;
+    }
 }
