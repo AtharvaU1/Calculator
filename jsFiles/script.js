@@ -153,6 +153,7 @@ function display(e){
         else if(targetClass==='erase'){
             const len = displayDivContent.length;
             if(displayDivContent[len-1]==='.') enableDecimal();
+            else if(isTargetClassOperator(displayDivContent[len-1])) enableOperators();
             if(len!==0) displayDiv.textContent = displayDivContent.slice(0, len-1);
         }
         return;
